@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="google-signin-client_id" content="1084867659362-oohs02lc2gnn1ntths0ug5eubnd8s8ii.apps.googleusercontent.com">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    <title>인지 과제 Archive</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/2-col-portfolio.css" rel="stylesheet">
+    <style>
+	  img.resize {
+	  width:700px;
+	  height:400px;
+	}
+     </style>
+
+  </head>
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">인지과제</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" onclick="location.href='task_preview.html?' + infotail;" >Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+      </div>
+    </nav>
+  <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	    crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+	    crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+	    crossorigin="anonymous"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script>
+		function onSignIn(googleUser) {
+			var profile = googleUser.getBasicProfile();
+			//console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+			//console.log('Name: ' + profile.getName());
+			//console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+			//startExperiment(true);
+		}
+		function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+			auth2.signOut().then(function () {
+				console.log('User signed out.');
+				location.href = "https://arete0.github.io/experiment/";
+			});
+		}
+		function startExperiment(fromOnSignIn) {
+			var auth2 = gapi.auth2.getAuthInstance();
+			if (auth2.isSignedIn.get()) {
+				var profile = auth2.currentUser.get().getBasicProfile();
+				//console.log('ID: ' + profile.getId());
+				//console.log('Full Name: ' + profile.getName());
+				//console.log('Given Name: ' + profile.getGivenName());
+				//console.log('Family Name: ' + profile.getFamilyName());
+				//console.log('Image URL: ' + profile.getImageUrl());
+				console.log('Email: ' + profile.getEmail());
+				location.href = "experiment.html?" + ['email=' + profile.getEmail()]
+					.join('&');
+			} else if (fromOnSignIn) {
+				alert("로그인에 실패했습니다.");
+			} else {
+				$(".g-signin2 > .abcRioButton").click();
+			}
+		}
+	</script>
+    <!-- getParticipantInfo -->
+    <script>
+        var info = getParticipantInfo();
+        //var filename = [info.id, info.name, info.email, (new Date()).getTime()].join('-') + '.csv';
+        var infotail = 'email=' + info.email//['id=' + info.id, 'name=' + info.name, 'email=' + info.email].join('&');
+
+        function getParticipantInfo() {
+            return decodeURI(location.search) // decode query parameters
+              .substring(1) // remove '?'
+              .split('&') // split parameters
+              .map(function (token) {
+            return token.split('='); // split key and value
+              })
+              .reduce(function (out, item) {
+            if (item[0].length == 0) return out;
+            out[item[0]] = item[1];
+            return out;
+              }, {}); // collect into an object
+        }
+    </script>
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h2 class="my-4">개인차 측정을 위한 인지 과제 개발 연구
+        <small></small>
+      </h2>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-lg-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#" onclick="location.href='https://hackmd.io/@cognition/rk_mQc0hkx?' + infotail;"><img class="card-img-top" src="images/stroop_thumb.PNG" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#" onclick="location.href='https://hackmd.io/@cognition/rk_mQc0hkx?' + infotail;">Stroop Task</a>
+
+              </h4>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+        <!-- 과제 설명 -->
+        <div class="col-lg-6 portfolio-item">
+          <header>
+            <h4>Stroop 과제 요약</h4>
+          </header>
+          <section>
+          <P>Stroop 과제를 사용하여 Amazon Mechanical Turk(AMT)의 유효성을 평가하였습니다. Stroop 과제는 전통적인 심리 실험 중 하나로, 색 이름을 잉크 색깔에 기반하여 식별하는 작업입니다. 예를 들어, "blue"라는 단어가 파란색이 아닌 빨간색으로 쓰였을 때, 참가자는 단어의 의미가 아닌 잉크 색깔(빨강)을 보고 응답해야 합니다.</P>
+            <strong>참고문헌</strong>
+            <ul style="font-size: 13px;">
+              <li>Crump, M. J., McDonnell, J. V., & Gureckis, T. M. (2013). Evaluating Amazon's Mechanical Turk as a tool for experimental behavioral research. PloS one, 8(3), e57410.</li>
+            </ul>
+          </section>
+          <!--
+          <section>
+            <h5>실험 개요</h5>
+            <ul>
+              <li><strong>구성:</strong> Stroop 과제는 총 96개의 시도로 구성되었으며, 48개는 일치(congruent), 48개는 불일치(incongruent) 항목.</li>
+              <li><strong>참가자:</strong> 101명 참가자를 모집하여 연구를 수행.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h5>실험 결과</h5>
+            <ul>
+              <li><strong>반응 시간:</strong> 일치 항목(평균 OOOms)에서 빠르게 응답, 불일치 항목(평균 XXXms)에서는 더 느린 반응을 보임.</li>
+              <li><strong>오류율:</strong> 불일치 항목의 오류율(0.0%)이 일치 항목(0.0%)보다 약간 높음.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h5>결론</h5>
+            <ul>
+              <li>Stroop 과제의 결과 기존의 온라인 실험이 전통적인 실험실 환경과 유사한 신뢰성을 제공할 수 있음.</li>
+              <li>그러나 온라인 환경에서 실시할 경우 참여자의 환경 통제가 부족하므로 연구 설계 시 주의가 필요.</li>
+            </ul>
+          </section>
+          -->
+      </div>
+      <hr style="border: 1px solid #ccc; width: 100%;">
+      </div>
+      <div class="row">
+        <div class="col-lg-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#" onclick="location.href='go_nogo/Start.html?' + infotail;"><img class="card-img-top" src="images/go-nogo_thumb.png" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#" onclick="location.href='go_nogo/Start.html?' + infotail;">Go-Nogo</a>
+              </h4>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+        <!-- 과제 설명 -->
+        <div class="col-lg-6 portfolio-item">
+          <header>
+            <h4>Go/Nogo 과제 요약</h4>
+          </header>
+          <section>
+            <P>F.C. Donders의 연구로, 1868년에 발표된 "심리적 과정의 속도"를 다룹니다. 본 연구는 인간의 정신 과정에서 반응 시간을 측정하고, 이를 통해 정신적 활동의 구조와 속도를 이해하려는 초기 시도 중 하나였습니다.</P>
+            <strong>참고문헌</strong>
+            <ul style="font-size: 13px;">
+              <li>Donders, F. C. (1969). On the speed of mental processes. Acta psychologica, 30, 412-431.</li>
+            </ul>
+          </section>
+          <!--
+          <section>
+            <h5>실험 개요</h5>
+            <ul>
+              <li><strong>목적:</strong> 특정한 자극에 대한 반응 시간을 측정하여, 정신적 과정이 단계별로 이루어진다는 것을 탐구.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h5>방법론</h5>
+            <ul>
+              <li>자극에 따른 반응 시간을 실험적으로 측정.</li>
+              <li>복잡한 과제(예: 선택 반응)가 단순한 과제(예: 단순 반응)보다 시간이 더 걸린다는 점을 확인.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h5>결과 및 의의</h5>
+            <ul>
+              <li>반응 시간의 차이는 정신 과정의 각 단계가 걸리는 시간으로 설명 가능.</li>
+              <li>이는 후에 Donders가 제안한 "가감법"(Subtraction Method)의 기초가 됨</li>
+              <li>실험 심리학에서 시간 측정을 통한 정신 과정 분석의 토대를 마련.</li>
+              <li>이후 인지 심리학 및 신경 과학 연구에서 중요한 전환점을 제공.</li>
+            </ul>
+          </section>
+          -->
+        </div>
+      </div>
+      <hr style="border: 1px solid #ccc; width: 100%;">
+      <div class="row">
+        <div class="col-lg-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#" onclick="location.href='n_back/Start.html?' + infotail;"><img class="card-img-top" src="images/n-back_thumb.png" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#" onclick="location.href='n_back/Start.html?' + infotail;">n-back</a>
+              </h4>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+        <!-- 과제 설명 -->
+        <div class="col-lg-6 portfolio-item">
+          <header>
+            <h4>n-back 과제 요약</h4>
+          </header>
+          <section>
+            <P>n-back 과제는 작업 기억(working memory)을 평가하는 데 사용되며, 참가자들이 화면에 제시된 문자를 이전에 제시된 문자와 비교해야 하는 실험. 이 과제는 작업 기억 부하를 조절할 수 있도록 복잡성 수준을 단계적으로 증가.</P>
+            <strong>참고문헌</strong>
+            <ul style="font-size: 13px;">
+              <li>Harvey, P. O., Fossati, P., Pochon, J. B., Levy, R., LeBastard, G., Lehéricy, S., ... & Dubois, B. (2005). Cognitive control and brain resources in major depression: an fMRI study using the n-back task. Neuroimage, 26(3), 860-869.</li>
+            </ul>
+          </section>
+          <!--
+          <section>
+            <h5>인지부하량(cognitive loadings)</h5>
+            <ul>
+              <li><strong>0-back:</strong> 특정 문자(예: "X")가 나타날 때 반응.</li>
+              <li><strong>1-back:</strong> 현재 문자가 이전 문자와 일치하는지 확인.</li>
+              <li><strong>2-back:</strong> 현재 문자가 두 번째 이전 문자와 일치하는지 확인.</li>
+              <li><strong>3-back:</strong> 현재 문자가 세 번째 이전 문자와 일치하는지 확인.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h5>방법론</h5>
+            <p>참여자는 우울증 환자 10명과 건강한 대조군 10명으로 구성되었으며, 각각 다양한 복잡성 수준의 n-back 과제를 수행.</p>
+            <ul>
+              <li>정확도와 반응 시간은 두 그룹 간 유의미한 차이가 없었음.</li>
+              <li>우울증 환자는 대조군보다 전두엽과 전대상회 영역에서 더 높은 뇌 활성화가 관찰됨.</li>
+              <li>과제 복잡성이 증가할수록 양 그룹 모두 작업 기억 네트워크 활성화가 증가하는 경향을 보임.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h5>결론</h5>
+            <p>우울증 환자들은 정상적인 과제 수행을 위해 더 많은 뇌 자원을 동원해야 했으며, 이는 작업 기억 네트워크의 비효율성과 연관될 수 있음을 시사.</p>
+          </section>
+          -->
+        </div>
+      <hr style="border: 1px solid #ccc; width: 100%;">
+      </div>
+          <!--
+          <div class="col-lg-6 portfolio-item">
+            <div class="card h-100">
+              <a href="#"><img class="card-img-top" src="images/raven_thumb.png" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#">Raven's APM</a>
+                </h4>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </div>
+        -->
+
+      <!-- /.row -->
+
+      <!-- Pagination -->
+      <!--
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+      -->
+
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </body>
+
+</html>
